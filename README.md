@@ -1,4 +1,4 @@
-# AWS-CDK-ORGANIZATIONS-DEMO
+# :bank: AWS-CDK-ORGANIZATIONS-DEMO :bank:
 
 DEMO for the best practices of AWS Organizations with Infrastructure as Code on CDK-Python.
 
