@@ -42,7 +42,7 @@ class OrganizationStack(Stack):
         # Organization creation, services configuration and SCPs
         self.create_root_organization()
         self.configure_organization_services()
-        # self.configure_service_control_policies()
+        self.configure_service_control_policies()
 
         # Create "sandbox" OU with inner OUs and accounts inside
         self.create_ou_sandbox()
@@ -114,7 +114,6 @@ class OrganizationStack(Stack):
             description="SCP to prevent accounts from leaving the organization",
         )
         self.organization.attach_policy(self.policy_deny_leave_org)
-        self.policy_deny_leave_org.node.add_dependency(self.organization)
 
         # SCP for only allow access to specific regions in AWS (deny others)
         self.policy_allow_specific_regions = Policy(
@@ -126,7 +125,6 @@ class OrganizationStack(Stack):
             description="SCP to only allow access to specific AWS Regions",
         )
         self.organization.attach_policy(self.policy_allow_specific_regions)
-        self.policy_allow_specific_regions.node.add_dependency(self.organization)
 
     def create_ou_sandbox(self):
         """
