@@ -1,28 +1,54 @@
-# :bank: AWS-CDK-ORGANIZATIONS-DEMO :bank:
+[![GitHub LICENSE](https://img.shields.io/github/license/san99tiago/aws-cdk-organizations-demo?style=plastic)](https://github.com/san99tiago/aws-cdk-organizations-demo/blob/main/LICENSE)
+[![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/san99tiago/aws-cdk-organizations-demo/deploy.yml?branch=main&label=deploy&style=plastic)](https://github.com/san99tiago/aws-cdk-organizations-demo/actions/workflows/deploy.yml)
+[![GitHub Release (Latest SemVer)](https://img.shields.io/github/v/release/san99tiago/aws-cdk-organizations-demo?sort=semver&style=plastic)](https://github.com/san99tiago/aws-cdk-organizations-demo/releases)
 
-![Badge Workflow](https://github.com/san99tiago/aws-cdk-organizations-demo/actions/workflows/deploy.yml/badge.svg)
+# [<img src="assets/aws_dynamic.gif" width=10% align="center" alt="cool aws image"  title="aws-cdk-organizations-demo">](https://github.com/san99tiago/aws-cdk-organizations-demo) AWS-CDK-ORGANIZATIONS-DEMO [<img src="assets/aws_dynamic.gif" width=10% align="center" alt="cool aws image"  title="aws-cdk-organizations-demo">](https://github.com/san99tiago/aws-cdk-organizations-demo)
 
-DEMO for the best practices of AWS Organizations with Infrastructure as Code on CDK-Python.
+Advanced DEMO of [AWS Organizations](https://aws.amazon.com/organizations/) for sharing the best practices of managing multiple production-grade AWS Accounts with Infrastructure as Code on [CDK-Python](https://docs.aws.amazon.com/cdk/v2/guide/home.html).
 
-## TODO:
+## Architecture 🏦
 
-Add a detailed README with diagrams, explanations and examples of usage.
+This diagram illustrates the generated AWS Organizations structure with multiple OUs and Account.
+
+<img src="assets/aws-cdk-organizations-demo.png" width=90%> <br>
+
+```bash
+# Hierarchy of the OUs and Accounts
+OURoot/
+├── 🏠ManagementAccount(🚩)
+├── 📝OUInfrastructure/
+│   ├── 📝OUInfrastructureNonProd/
+│   │   └── 🏠AccountSharedServicesNonProd
+│   └── 📝OUInfrastructureProd/
+│       └── 🏠AccountSharedServicesProd
+├── 📝OUWorkloads/
+│   └── 📝OUFinance/
+│       ├── 📝OUFinanceNonProd/
+│       │   ├── 🏠AccountFinanceDev
+│       │   └── 🏠AccountFinanceQA
+│       └── 📝OUFinanceProd/
+│           └── 🏠AccountFinanceProd
+└── 📝OUPolicyStagingTests/
+    └── 🏠AccountPolicyStagingTests
+```
 
 ## CI/CD and Deployment 🚀
 
-The deployment process is intended to run with GitHub Actions Workflows.
+The deployment process is intended to run with GitHub Actions Workflows and implementing the Cloud Development Tool (CDK) tool for managing the IaC and State.
+
+<img src="assets/aws-cdk-organizations-demo-cicd.png" width=90%> <br>
 
 - On `feature/****` branches commits, the CDK project gets **synthesized** and it shows the **state diff** between the current AWS resources and the expected ones.
 
 - When merged to `main` branch, it will get deployed to the AWS Account automatically.
 
-To understand the AWS Credentials usage, please refer to the [`prerequisites/README.md`](.github/prerequisites/README.md).
+To understand the AWS Credentials usage for GitHub Actions auth, please refer to the [`prerequisites/README.md`](.github/prerequisites/README.md).
 
-## Special thanks :gift:
+## Special thanks 🎁
 
-- Thanks to all contributors of the great OpenSource projects that I am using. <br>
+- Huge shout-out to [pepperize/cdk-organizations](https://github.com/pepperize/cdk-organizations) for the Custom AWS-CDK Constructs that are provided for managing this project.
 
-## Author :musical_keyboard:
+## Author 🎹
 
 ### Santiago Garcia Arango
 

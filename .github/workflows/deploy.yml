@@ -3,7 +3,6 @@ name: deploy
 on:
   push:
     branches: [ 'main', 'feature/**']
-    tags: [ 'v*']
 env:
   AWS_DEFAULT_REGION: us-east-1
   AWS_DEFAULT_OUTPUT: json
