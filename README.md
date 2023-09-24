@@ -1,8 +1,10 @@
-# 🅾️ AWS-CDK-ORGANIZATIONS-DEMO 🅾️
+[![GitHub LICENSE](https://img.shields.io/github/license/san99tiago/aws-cdk-organizations-demo?style=plastic)](https://github.com/san99tiago/aws-cdk-organizations-demo/blob/main/LICENSE)
+[![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/san99tiago/aws-cdk-organizations-demo/deploy.yml?branch=main&label=deploy&style=plastic)](https://github.com/san99tiago/aws-cdk-organizations-demo/actions/workflows/deploy.yml)
+[![GitHub Release (Latest SemVer)](https://img.shields.io/github/v/release/san99tiago/aws-cdk-organizations-demo?sort=semver&style=plastic)](https://github.com/san99tiago/aws-cdk-organizations-demo/releases)
 
-![Badge Workflow](https://github.com/san99tiago/aws-cdk-organizations-demo/actions/workflows/deploy.yml/badge.svg?branch=main)
+# [<img src="assets/aws_dynamic.gif" width=10% align="center" alt="cool aws image"  title="aws-cdk-organizations-demo">](https://github.com/san99tiago/aws-cdk-organizations-demo) AWS-CDK-ORGANIZATIONS-DEMO [<img src="assets/aws_dynamic.gif" width=10% align="center" alt="cool aws image"  title="aws-cdk-organizations-demo">](https://github.com/san99tiago/aws-cdk-organizations-demo)
 
-Advanced DEMO of AWS Organization for sharing the best practices of managing multiple production-grade AWS Accounts with Infrastructure as Code on [CDK-Python](https://docs.aws.amazon.com/cdk/v2/guide/home.html).
+Advanced DEMO of [AWS Organizations](https://aws.amazon.com/organizations/) for sharing the best practices of managing multiple production-grade AWS Accounts with Infrastructure as Code on [CDK-Python](https://docs.aws.amazon.com/cdk/v2/guide/home.html).
 
 ## Architecture 🏦
 
