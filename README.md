@@ -49,6 +49,16 @@ The deployment process is intended to run with GitHub Actions Workflows and impl
 
 To understand the AWS Credentials usage for GitHub Actions auth, please refer to the [`prerequisites/README.md`](.github/prerequisites/README.md).
 
+## Manual Steps (Only Once) 👋
+
+As of now, IAM Identity Center (successor to AWS Single Sign-On) has to be "manually" enabled once, so that the SSO Configurations and Permission Sets can be created via IaC. In order to do so, we have to go to the SSO Console and click on `Enable IAM Identity Center`:
+
+<img src="assets/aws-cdk-organizations-demo-sso-enable.png" width=90%> <br>
+
+Then, we have to configure our SSO URL as follows:
+
+<img src="assets/aws-cdk-organizations-demo-sso-url.png" width=50%> <br>
+
 ## Special thanks 🎁
 
 - Huge shout-out to [pepperize/cdk-organizations](https://github.com/pepperize/cdk-organizations) for the Custom AWS-CDK Constructs that are provided for managing this project.
