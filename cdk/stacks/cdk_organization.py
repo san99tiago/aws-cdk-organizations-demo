@@ -62,6 +62,8 @@ class OrganizationStack(Stack):
         self.create_ou_workloads()
         self.create_ou_finance()
         self.create_accounts_inside_ou_finance()
+        self.create_ou_marketing()
+        self.create_accounts_inside_ou_marketing()
 
         # Create "policy_staging_tests" OU with inner OUs and accounts inside
         self.create_ou_policy_staging_tests()
@@ -291,6 +293,52 @@ class OrganizationStack(Stack):
             role_name="OrganizationAccountAccessRole",
         )
 
+    def create_ou_marketing(self):
+        """
+        Method that creates inner Organizational Units (OUs) inside the AWS
+        Organization for "Marketing".
+        """
+        self.ou_marketing = OrganizationalUnit(
+            self,
+            "OUMarketing",
+            parent=self.top_level_ou_workloads,
+            organizational_unit_name="marketing",
+        )
+        self.ou_marketing_non_prod = OrganizationalUnit(
+            self,
+            "OUMarketingNonProd",
+            parent=self.ou_marketing,
+            organizational_unit_name="non-prod",
+        )
+        self.ou_marketing_prod = OrganizationalUnit(
+            self,
+            "OUMarketingProd",
+            parent=self.ou_marketing,
+            organizational_unit_name="prod",
+        )
+
+    def create_accounts_inside_ou_marketing(self):
+        """
+        Method that creates AWS Accounts inside the Organizational Units (OUs)
+        for "Marketing".
+        """
+        self.account_marketing_dev = Account(
+            self,
+            "AccountMarketingDev",
+            account_name="marketing-dev",
+            email="san99tiagodemo+marketing-dev@gmail.com",
+            parent=self.ou_marketing_non_prod,
+            role_name="OrganizationAccountAccessRole",
+        )
+        self.account_marketing_prod = Account(
+            self,
+            "AccountMarketingProd",
+            account_name="marketing-prod",
+            email="san99tiagodemo+marketing-prod@gmail.com",
+            parent=self.ou_marketing_prod,
+            role_name="OrganizationAccountAccessRole",
+        )
+
     def create_ou_policy_staging_tests(self):
         """
         Method that creates inner Organizational Units (OUs) inside the AWS
@@ -336,7 +384,11 @@ class OrganizationStack(Stack):
         self.account_finance_dev.node.add_dependency(self.account_shared_services_prod)
         self.account_finance_qa.node.add_dependency(self.account_finance_dev)
         self.account_finance_prod.node.add_dependency(self.account_finance_qa)
-        self.account_policy_staging_tests.node.add_dependency(self.account_finance_prod)
+        self.account_marketing_dev.node.add_dependency(self.account_finance_prod)
+        self.account_marketing_prod.node.add_dependency(self.account_marketing_dev)
+        self.account_policy_staging_tests.node.add_dependency(
+            self.account_marketing_prod
+        )
 
     def generate_cloudformation_outputs(self):
         """
@@ -425,6 +477,20 @@ class OrganizationStack(Stack):
             "AccountFinanceProdId",
             value=self.account_finance_prod.account_id,
             description="ID of AccountFinanceProd Account",
+        )
+
+        CfnOutput(
+            self,
+            "AccountMarketingDevId",
+            value=self.account_marketing_dev.account_id,
+            description="ID of AccountMarketingDev Account",
+        )
+
+        CfnOutput(
+            self,
+            "AccountMarketingProdId",
+            value=self.account_marketing_prod.account_id,
+            description="ID of AccountMarketingProd Account",
         )
 
         CfnOutput(

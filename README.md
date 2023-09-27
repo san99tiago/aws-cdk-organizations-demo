@@ -22,12 +22,17 @@ OURoot/
 │   └── 📝OUInfrastructureProd/
 │       └── 🏠AccountSharedServicesProd
 ├── 📝OUWorkloads/
-│   └── 📝OUFinance/
-│       ├── 📝OUFinanceNonProd/
-│       │   ├── 🏠AccountFinanceDev
-│       │   └── 🏠AccountFinanceQA
-│       └── 📝OUFinanceProd/
-│           └── 🏠AccountFinanceProd
+│   ├── 📝OUFinance/
+│   │   ├── 📝OUFinanceNonProd/
+│   │   │   ├── 🏠AccountFinanceDev
+│   │   │   └── 🏠AccountFinanceQA
+│   │   └── 📝OUFinanceProd/
+│   │       └── 🏠AccountFinanceProd
+│   └── 📝OUMarketing/
+│       ├── 📝OUMarketingNonProd/
+│       │   ├── 🏠AccountMarketingDev
+│       └── 📝OUMarketingProd/
+│           └── 🏠AccountMarketingProd
 └── 📝OUPolicyStagingTests/
     └── 🏠AccountPolicyStagingTests
 ```
