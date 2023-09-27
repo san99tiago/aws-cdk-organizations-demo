@@ -14,6 +14,7 @@ import json
 from aws_cdk import (
     Stack,
     CfnOutput,
+    RemovalPolicy,
 )
 from constructs import Construct
 from pepperize_cdk_organizations import (
@@ -172,14 +173,16 @@ class OrganizationStack(Stack):
             parent=self.top_level_ou_sandbox,
             role_name="OrganizationAccountAccessRole",
         )
-        self.account_sandbox_2 = Account(
-            self,
-            "SandboxAccount2",
-            account_name="san99tiago-sandbox-2",
-            email="san99tiagodemo+san99tiago-sandbox-2@gmail.com",
-            parent=self.top_level_ou_sandbox,
-            role_name="OrganizationAccountAccessRole",
-        )
+
+        # # DELETED TO AVOID LIMIT QUOTA OF 10 ACCOUNTS IN DEMO
+        # self.account_sandbox_2 = Account(
+        #     self,
+        #     "SandboxAccount2",
+        #     account_name="san99tiago-sandbox-2",
+        #     email="san99tiagodemo+san99tiago-sandbox-2@gmail.com",
+        #     parent=self.top_level_ou_sandbox,
+        #     role_name="OrganizationAccountAccessRole",
+        # )
 
     def create_ou_infrastructure(self):
         """
@@ -322,22 +325,28 @@ class OrganizationStack(Stack):
         Method that creates AWS Accounts inside the Organizational Units (OUs)
         for "Marketing".
         """
-        self.account_marketing_dev = Account(
-            self,
-            "AccountMarketingDev",
-            account_name="marketing-dev",
-            email="san99tiagodemo+marketing-dev@gmail.com",
-            parent=self.ou_marketing_non_prod,
-            role_name="OrganizationAccountAccessRole",
-        )
-        self.account_marketing_prod = Account(
-            self,
-            "AccountMarketingProd",
-            account_name="marketing-prod",
-            email="san99tiagodemo+marketing-prod@gmail.com",
-            parent=self.ou_marketing_prod,
-            role_name="OrganizationAccountAccessRole",
-        )
+        pass
+        # # TODO: Activate when quota limit is greater than 10 accounts
+        # self.account_marketing_dev = Account(
+        #     self,
+        #     "AccountMarketingDev",
+        #     account_name="marketing-dev",
+        #     email="san99tiagodemo+marketing-dev@gmail.com",
+        #     parent=self.ou_marketing_non_prod,
+        #     role_name="OrganizationAccountAccessRole",
+        #     removal_policy=RemovalPolicy.RETAIN,
+        #     import_on_duplicate=True,
+        # )
+
+        # # TODO: Activate when quota limit is greater than 10 accounts
+        # self.account_marketing_prod = Account(
+        #     self,
+        #     "AccountMarketingProd",
+        #     account_name="marketing-prod",
+        #     email="san99tiagodemo+marketing-prod@gmail.com",
+        #     parent=self.ou_marketing_prod,
+        #     role_name="OrganizationAccountAccessRole",
+        # )
 
     def create_ou_policy_staging_tests(self):
         """
@@ -374,9 +383,8 @@ class OrganizationStack(Stack):
         # ! IMPORTANT: We MUST add these dependencies, as AWS Organizations only support
         # ... one account creation "IN_PROGRESS". We add CDK dependency to solve issue
         # ... and wait for the previous one to finish, to continue with the next...
-        self.account_sandbox_2.node.add_dependency(self.account_sandbox_1)
         self.account_shared_services_non_prod.node.add_dependency(
-            self.account_sandbox_2
+            self.account_sandbox_1
         )
         self.account_shared_services_prod.node.add_dependency(
             self.account_shared_services_non_prod
@@ -384,11 +392,7 @@ class OrganizationStack(Stack):
         self.account_finance_dev.node.add_dependency(self.account_shared_services_prod)
         self.account_finance_qa.node.add_dependency(self.account_finance_dev)
         self.account_finance_prod.node.add_dependency(self.account_finance_qa)
-        self.account_marketing_dev.node.add_dependency(self.account_finance_prod)
-        self.account_marketing_prod.node.add_dependency(self.account_marketing_dev)
-        self.account_policy_staging_tests.node.add_dependency(
-            self.account_marketing_prod
-        )
+        self.account_policy_staging_tests.node.add_dependency(self.account_finance_prod)
 
     def generate_cloudformation_outputs(self):
         """
@@ -439,13 +443,6 @@ class OrganizationStack(Stack):
 
         CfnOutput(
             self,
-            "AccountSandbox2Id",
-            value=self.account_sandbox_2.account_id,
-            description="ID of SandboxAccount2 Account",
-        )
-
-        CfnOutput(
-            self,
             "AccountSharedServicesNonProdId",
             value=self.account_shared_services_non_prod.account_id,
             description="ID of AccountSharedServicesNonProd Account",
@@ -477,20 +474,6 @@ class OrganizationStack(Stack):
             "AccountFinanceProdId",
             value=self.account_finance_prod.account_id,
             description="ID of AccountFinanceProd Account",
-        )
-
-        CfnOutput(
-            self,
-            "AccountMarketingDevId",
-            value=self.account_marketing_dev.account_id,
-            description="ID of AccountMarketingDev Account",
-        )
-
-        CfnOutput(
-            self,
-            "AccountMarketingProdId",
-            value=self.account_marketing_prod.account_id,
-            description="ID of AccountMarketingProd Account",
         )
 
         CfnOutput(
