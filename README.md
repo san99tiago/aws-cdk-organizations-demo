@@ -22,7 +22,7 @@ OURoot/
 │   └── 📝OUInfrastructureProd/
 │       └── 🏠AccountSharedServicesProd
 ├── 📝OUWorkloads/
-│   └── 📝OUFinance/
+│   ├── 📝OUFinance/
 │   │   ├── 📝OUFinanceNonProd/
 │   │   │   ├── 🏠AccountFinanceDev
 │   │   │   └── 🏠AccountFinanceQA
