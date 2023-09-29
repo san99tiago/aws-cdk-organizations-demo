@@ -325,28 +325,25 @@ class OrganizationStack(Stack):
         Method that creates AWS Accounts inside the Organizational Units (OUs)
         for "Marketing".
         """
-        pass
-        # # TODO: Activate when quota limit is greater than 10 accounts
-        # self.account_marketing_dev = Account(
-        #     self,
-        #     "AccountMarketingDev",
-        #     account_name="marketing-dev",
-        #     email="san99tiagodemo+marketing-dev@gmail.com",
-        #     parent=self.ou_marketing_non_prod,
-        #     role_name="OrganizationAccountAccessRole",
-        #     removal_policy=RemovalPolicy.RETAIN,
-        #     import_on_duplicate=True,
-        # )
+        self.account_marketing_dev = Account(
+            self,
+            "AccountMarketingDev",
+            account_name="marketing-dev",
+            email="san99tiagodemo+marketing-dev@gmail.com",
+            parent=self.ou_marketing_non_prod,
+            role_name="OrganizationAccountAccessRole",
+            removal_policy=RemovalPolicy.RETAIN,
+            import_on_duplicate=True,
+        )
 
-        # # TODO: Activate when quota limit is greater than 10 accounts
-        # self.account_marketing_prod = Account(
-        #     self,
-        #     "AccountMarketingProd",
-        #     account_name="marketing-prod",
-        #     email="san99tiagodemo+marketing-prod@gmail.com",
-        #     parent=self.ou_marketing_prod,
-        #     role_name="OrganizationAccountAccessRole",
-        # )
+        self.account_marketing_prod = Account(
+            self,
+            "AccountMarketingProd",
+            account_name="marketing-prod",
+            email="san99tiagodemo+marketing-prod@gmail.com",
+            parent=self.ou_marketing_prod,
+            role_name="OrganizationAccountAccessRole",
+        )
 
     def create_ou_policy_staging_tests(self):
         """
@@ -392,7 +389,11 @@ class OrganizationStack(Stack):
         self.account_finance_dev.node.add_dependency(self.account_shared_services_prod)
         self.account_finance_qa.node.add_dependency(self.account_finance_dev)
         self.account_finance_prod.node.add_dependency(self.account_finance_qa)
-        self.account_policy_staging_tests.node.add_dependency(self.account_finance_prod)
+        self.account_marketing_dev.node.add_dependency(self.account_finance_prod)
+        self.account_marketing_prod.node.add_dependency(self.account_marketing_dev)
+        self.account_policy_staging_tests.node.add_dependency(
+            self.account_marketing_prod
+        )
 
     def generate_cloudformation_outputs(self):
         """
@@ -474,6 +475,20 @@ class OrganizationStack(Stack):
             "AccountFinanceProdId",
             value=self.account_finance_prod.account_id,
             description="ID of AccountFinanceProd Account",
+        )
+
+        CfnOutput(
+            self,
+            "AccountMarketingDevId",
+            value=self.account_marketing_dev.account_id,
+            description="ID of AccountMarketingDev Account",
+        )
+
+        CfnOutput(
+            self,
+            "AccountMarketingProdId",
+            value=self.account_marketing_prod.account_id,
+            description="ID of AccountMarketingProd Account",
         )
 
         CfnOutput(
