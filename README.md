@@ -6,6 +6,11 @@
 
 Advanced DEMO of [AWS Organizations](https://aws.amazon.com/organizations/) for sharing the best practices of managing multiple production-grade AWS Accounts with Infrastructure as Code on [CDK-Python](https://docs.aws.amazon.com/cdk/v2/guide/home.html).
 
+<img src="assets/medellin_tech_talks_00.JPG" width=50%><img src="assets/medellin_tech_talks_01.JPG" width=50%>
+<br>
+<img src="assets/medellin_tech_talks_02.JPG" width=50%><img src="assets/medellin_tech_talks_03.JPG" width=50%>
+<br>
+
 ## Architecture 🏦
 
 This diagram illustrates the generated AWS Organizations structure with multiple OUs and Account.
